@@ -1,13 +1,11 @@
 const app = require('./app')
-
-//import dotenv module
-require('dotenv').config()
+const config = require('./utils/config')
 
 const mongoose = require('mongoose')
 
 console.log("Connecting to MongoDB")
 
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(config.MONGODB_URI)
 .then(
     () => {
         console.log("CONNECTED to MongoDB")
