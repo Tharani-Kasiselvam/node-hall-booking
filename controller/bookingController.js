@@ -42,6 +42,19 @@ const bookingController = {
             }catch(error){
             res.json({message:"Error while booking room"})
         }
+    },
+
+    bookedData : async (req,res) => {
+        const {booking_date} = req.body
+        const booked_date = new Date(booking_date)
+
+        const booked_Data = await roomBookings.find({"booking_date":booked_date},{_id:0,booking_date:1,booking_status:1,customer_name:1,booking_date:1, start_time:1,end_time:1})
+
+        if(booked_Data.length>0)
+            res.json({message:booked_Data})
+        
+        else
+        res.json({message:"No Rooms Booked for the given date"})
     }
 }
 
