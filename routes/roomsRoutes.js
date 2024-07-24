@@ -7,5 +7,6 @@ const bookingController = require('../controller/bookingController')
 router.post('/',roomsController.createRoom)
 router.post('/bookRoom',bookingController.booking)
 router.get('/bookedData',bookingController.bookedData)
+router.get('/customerData',bookingController.customerData)
 
 module.exports = router

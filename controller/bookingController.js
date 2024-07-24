@@ -45,18 +45,25 @@ const bookingController = {
     },
 
     bookedData : async (req,res) => {
-        // const {booking_date} = req.body
-        // const booked_date = new Date(booking_date)
-
-        //fetching the Booked Details
+        //fetching all the Booked Room Details
         const booked_Data = await roomBookings.find({},{_id:0,room_id:1, booked_status:1, customer_name:1,booking_date:1, start_time:1,end_time:1})
 
         if(booked_Data.length>0)
             res.json({BookedData:booked_Data})
         
         else
-        res.json({message:"No Rooms Booked for the given date"})
-    }
+             res.json({message:"No Rooms Booked"})
+    },
+
+    customerData : async (req,res) => {
+        const cust_data = await roomBookings.find({},{_id:0, customer_name:1, room_id:1, booking_date:1, start_time:1, end_time:1})
+        
+        if(cust_data.length>0)
+            res.json({"Customer Data":cust_data})
+        
+        else
+             res.json({message:"No Customers Booked Room"})
+    } 
 }
 
 module.exports = bookingController
