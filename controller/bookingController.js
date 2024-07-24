@@ -6,30 +6,40 @@ const bookingController = {
         try{
             const {customer_name, booking_date, room_id} = req.body
 
-            // const {room_id} = req.body
+            //Booking date recived from Customer
+            const req_date = new Date(booking_date)
+            let bookFlag = false
 
-            //checking whether the Room is already booked
+            //fetching the data that matches the requested RoomId
             const bookedDates = await roomBookings.find({"room_id":room_id},{_id:0,booking_date:1})
             
-            bookedDates.map(bookDate => {
-                if(bookDate==booking_date.toISOString()){
-                    res.json({message:"Room already Booked",bookDate})
+
+            bookedDates.map(bookedDate => {
+                const bkDate = new Date(bookedDate.booking_date)
+
+                //comparing the dates booked for selected RommIds
+                if(bkDate.toISOString()===req_date.toISOString()){
+                    bookFlag = true
                 }
-                else
-                res.json({message:bookDate,booking_date})
             })
-            
 
-            // const newBooking = new roomBookings({
-            //     customer_name,
-            //     booking_date,
-            //     room_id
-            // })
+            //based on the booking flag, new room is booked
+            if(bookFlag){
+                res.status(500).send({message:"Room already Booked. Kindly select a different Room"})
+                return
+            }
+            else{
+                    const newBooking = new roomBookings({
+                        customer_name,
+                        booking_date,
+                        room_id
+                        })
 
-            // const bookedRoom = await newBooking.save()
-            // res.json({message:"Room BOOKED successfully",bookedRoom})
-
-        }catch(error){
+                    newBooking.save()
+                    res.status(200).send({message:"Room BOOKED successfully"})           
+                    return         
+                 }
+            }catch(error){
             res.json({message:"Error while booking room"})
         }
     }
