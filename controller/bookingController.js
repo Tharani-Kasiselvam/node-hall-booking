@@ -63,7 +63,18 @@ const bookingController = {
         
         else
              res.json({message:"No Customers Booked Room"})
-    } 
+    },
+
+    customerBooking : async (req,res) => {
+        const {customer_name} = req.body
+        const cust_book = await roomBookings.find({"customer_name":customer_name},{_id:0, customer_name:1, room_id:1, booking_date:1, start_time:1, end_time:1,booking_id:1, booking_date:1, booked_status:1})
+
+        if(cust_book.length>0)
+            res.json({"Customer Data":cust_book})
+        
+        else
+             res.json({message:"No Rooms Booked by the Customer"})
+    }
 }
 
 module.exports = bookingController

@@ -14,7 +14,8 @@ const roomBookingsSchema = new mongoose.Schema({
         default : "11:59 pm"
     },
     room_id : String,
-    booked_status : String
+    booked_status : String,
+    booking_id : String
 },
 {
     collection:'RoomBookings',
